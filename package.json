@@ -1,0 +1,15 @@
+{
+  "name": "thriv_mono",
+  "version": "1.0.0",
+  "description": "Thriv typescript monorepo",
+  "main": "index.js",
+  "author": "<geoff@generalconsulting.io>",
+  "license": "none",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "devDependencies": {
+    "lerna": "^7.1.5"
+  }
+}
