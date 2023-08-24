@@ -6,9 +6,17 @@ import { useRouter, usePathname, useSearchParams } from 'next/navigation'
 
 
 import { Configuration, FrontendApi, Session, Identity } from "@ory/client"
-import { edgeConfig } from "@ory/integrations/next"
 
-const ory = new FrontendApi(new Configuration(edgeConfig))
+const basePath = process.env.NEXT_PUBLIC_ORY_SDK_URL;
+
+const ory = new FrontendApi(
+  new Configuration({
+    basePath: basePath,
+    baseOptions: {
+      withCredentials: true,
+    },
+  })
+);
 
 // Returns either the email or the username depending on the user's Identity Schema
 const getUserName = (identity: Identity) =>
@@ -31,8 +39,7 @@ const Home = () => {
         })
       })
       .catch(() => {
-        // Redirect to login page
-        return router.push(edgeConfig.basePath + "/ui/login")
+        return router.push(basePath + "/ui/login");
       })
   }, [router])
 
