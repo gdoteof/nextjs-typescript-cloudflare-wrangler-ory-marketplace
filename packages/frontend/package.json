@@ -6,12 +6,14 @@
     "start": "serve out"
   },
   "dependencies": {
+    "@ory/client": "^1.1.49",
+    "@ory/integrations": "^1.1.4",
     "@types/node": "^18.11.5",
-    "@types/react-dom": "^18.0.7",
     "@types/react": "^18.0.23",
+    "@types/react-dom": "^18.0.7",
     "next": "latest",
-    "react-dom": "^18.2.0",
     "react": "^18.2.0",
+    "react-dom": "^18.2.0",
     "serve": "^14.2.0",
     "typescript": "^4.8.4"
   }
