@@ -9,6 +9,9 @@
   "workspaces": [
     "packages/*"
   ],
+  "scripts": {
+    "proxy": "ory proxy --no-jwt --port 4000 http://localhost:3000/"
+  },
   "devDependencies": {
     "lerna": "^7.1.5"
   }
