@@ -60,7 +60,7 @@ async function handleRequest(request: Request, env: Env): Promise<Response> {
 			return new Response(JSON.stringify({ id }), { status: 201 });
 		case 'PUT':
 			const existingItem: Item = await request.json();
-			namespace.put(existingItem.id, JSON.stringify(newItem));
+			namespace.put(existingItem.id, JSON.stringify(existingItem));
 			break;
 		case 'DELETE':
 			const deletionItem: Item = await request.json();
