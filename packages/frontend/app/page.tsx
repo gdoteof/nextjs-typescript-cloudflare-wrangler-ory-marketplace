@@ -26,6 +26,7 @@ const Home = () => {
   const router = useRouter()
   const [session, setSession] = useState<Session | undefined>()
   const [logoutUrl, setLogoutUrl] = useState<string | undefined>()
+  const [userName, setUsername] = useState<string | undefined>()
 
   useEffect(() => {
     ory
@@ -33,13 +34,14 @@ const Home = () => {
       .then(({ data }) => {
         // User has a session!
         setSession(data)
+        setUsername(data.identity.traits.username)
         // Create a logout url
         ory.createBrowserLogoutFlow().then(({ data }) => {
           setLogoutUrl(data.logout_url)
         })
       })
       .catch(() => {
-        return router.push(basePath + "/ui/login");
+        setUsername('anonymous coward')
       })
   }, [router])
 
