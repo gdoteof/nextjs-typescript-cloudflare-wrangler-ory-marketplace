@@ -54,10 +54,10 @@ const Home = () => {
   return (
     <div>
       <h1>Thriv</h1>
-      <p>Hello, {getUserName(session?.identity)}</p>
           <div>
             { session?.identity && (
               <>
+                <p>Hello, {getUserName(session?.identity)}</p>
                 <p>
                   <Link href={settingsUrl}>
                     Profile
