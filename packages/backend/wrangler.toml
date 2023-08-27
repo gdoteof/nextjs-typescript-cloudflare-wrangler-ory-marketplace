@@ -1,0 +1,9 @@
+name = "backend"
+main = "src/worker.ts"
+compatibility_date = "2023-08-21"
+
+kv_namespaces = [
+	{ binding = "FACILITY", id = "38f3f4df2c6d4989bf8e7f8d424f62af", preview_id = "cebf02333df24bfea2201073e06bfa81" },
+	{ binding = "PROVIDER", id = "69e803b655ee432d9de2b31c3da2725f", preview_id = "5bd85d4a6ac84a6f96c259f1ff33a8aa" },
+	{ binding = "SERVICE", id = "ccd59bbd15084b3c9e786bbcfa7c6784", preview_id = "2da905a16d4a45d4987da28e1e305acc" }
+]
