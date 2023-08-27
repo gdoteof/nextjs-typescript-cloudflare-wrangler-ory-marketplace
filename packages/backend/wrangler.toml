@@ -2,51 +2,8 @@ name = "backend"
 main = "src/worker.ts"
 compatibility_date = "2023-08-21"
 
-# Variable bindings. These are arbitrary, plaintext strings (similar to environment variables)
-# Note: Use secrets to store sensitive data.
-# Docs: https://developers.cloudflare.com/workers/platform/environment-variables
-# [vars]
-# MY_VARIABLE = "production_value"
-
-# Bind a KV Namespace. Use KV as persistent storage for small key-value pairs.
-# Docs: https://developers.cloudflare.com/workers/runtime-apis/kv
 kv_namespaces = [
-	{ binding = "ITEM", id = "d758d62cccfe4834ba3d69dd68b62a4e", preview_id = "9ba3144b41c7428ba8a20d3512cfa6d2" },
-	{ binding = "CATEGORY", id = "7d05efd21755430ca51130e77167656e", preview_id = "b76c92421dda4f729f5c44436ef1c8d5"  }
+	{ binding = "FACILITY", id = "38f3f4df2c6d4989bf8e7f8d424f62af", preview_id = "cebf02333df24bfea2201073e06bfa81" },
+	{ binding = "PROVIDER", id = "69e803b655ee432d9de2b31c3da2725f", preview_id = "5bd85d4a6ac84a6f96c259f1ff33a8aa" },
+	{ binding = "SERVICE", id = "ccd59bbd15084b3c9e786bbcfa7c6784", preview_id = "2da905a16d4a45d4987da28e1e305acc" }
 ]
-
-# Bind an R2 Bucket. Use R2 to store arbitrarily large blobs of data, such as files.
-# Docs: https://developers.cloudflare.com/r2/api/workers/workers-api-usage/
-# [[r2_buckets]]
-# binding = "MY_BUCKET"
-# bucket_name = "my-bucket"
-
-# Bind a Queue producer. Use this binding to schedule an arbitrary task that may be processed later by a Queue consumer.
-# Docs: https://developers.cloudflare.com/queues/get-started
-# [[queues.producers]]
-# binding = "MY_QUEUE"
-# queue = "my-queue"
-
-# Bind a Queue consumer. Queue Consumers can retrieve tasks scheduled by Producers to act on them.
-# Docs: https://developers.cloudflare.com/queues/get-started
-# [[queues.consumers]]
-# queue = "my-queue"
-
-# Bind another Worker service. Use this binding to call another Worker without network overhead.
-# Docs: https://developers.cloudflare.com/workers/platform/services
-# [[services]]
-# binding = "MY_SERVICE"
-# service = "/api/*"
-
-# Bind a Durable Object. Durable objects are a scale-to-zero compute primitive based on the actor model.
-# Durable Objects can live for as long as needed. Use these when you need a long-running "server", such as in realtime apps.
-# Docs: https://developers.cloudflare.com/workers/runtime-apis/durable-objects
-# [[durable_objects.bindings]]
-# name = "MY_DURABLE_OBJECT"
-# class_name = "MyDurableObject"
-
-# Durable Object migrations.
-# Docs: https://developers.cloudflare.com/workers/learning/using-durable-objects#configure-durable-object-classes-with-migrations
-# [[migrations]]
-# tag = "v1"
-# new_classes = ["MyDurableObject"]

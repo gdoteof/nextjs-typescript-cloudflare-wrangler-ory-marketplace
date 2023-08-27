@@ -1,20 +1,5 @@
-/// <reference types="@types/google.maps" />
-
 type Metadata = {
     [key: string]: any;
-}
-
-interface Category {
-    id: string;
-    name: string;
-    metadata: Metadata;
-}
-
-interface Item {
-    id: string;
-    name: string;
-    metadata: Metadata;
-    categories?: Category[];
 }
 
 type Success<T> = {
@@ -30,7 +15,7 @@ type Failure<E> = {
 type Result<T, E> = Success<T> | Failure<E>;
 
 
-export type { Metadata, Category, Item, Result };
+export type { Metadata, Result };
 
 // Types for Service Providers (Coaches)
 interface ServiceProvider {
@@ -56,7 +41,7 @@ interface Service {
 export interface Facility {
     id: string;
     name: string;
-    location: google.maps.GeocoderResult;
+    location: GeocoderResult;
     amenities: string;
     associatedServiceProviders: string[]; // Array of Service Provider IDs
 }

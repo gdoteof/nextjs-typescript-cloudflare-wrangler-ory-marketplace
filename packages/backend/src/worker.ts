@@ -8,34 +8,54 @@
  * Learn more at https://developers.cloudflare.com/workers/
  */
 import { v4 as uuidv4 } from 'uuid';
-
-
+import { Item, Result } from './types';
 export interface Env {
-	CATEGORY: KVNamespace;
-	ITEM: KVNamespace;
+	FACILITY: KVNamespace;
+	PROVIDER: KVNamespace;
+	SERVICE: KVNamespace;
 }
 
 export default {
 	async fetch(request: Request, env: Env, ctx: ExecutionContext): Promise<Response> {
-		return await handleRequest(request, env);
+		let response =  await handleCRUD(request, env);
+		return handleCORS(response, request);
 	},
 };
-
-import { Item, Result } from './types';
-
-function  path2KV(path: string[], env: Env): Result<KVNamespace, string> {
-	switch (path[0]) {
-		case 'category':
-			return { kind: 'success', value: env.CATEGORY };
-		case 'item':
-			return { kind: 'success', value: env.ITEM };
-		default:
-			return { kind: 'failure', error: 'Could not map KV' };
-	}
+function handleCORS(response: Response, request: Request): Response {
+	console.log("Handling CORS");
+	const origin = request.headers.get('Origin');
+	response.headers.set("Access-Control-Allow-Origin", origin || "*"),
+	response.headers.set("Access-Control-Allow-Methods", "GET,POST,PUT,DELETE,OPTIONS")
+	response.headers.set("Access-Control-Allow-Headers", "Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With")
+	response.headers.set("Access-Control-Max-Age", "86400") // 24 hours
+	return new Response(response.body, response);
 }
 
 
-async function handleRequest(request: Request, env: Env): Promise<Response> {
+function  path2KV(path: string[], env: Env): Result<KVNamespace, string> {
+	switch (path[0]) {
+		case 'api':
+			switch (path[1]) {
+				case 'facilities':
+					return { kind: 'success', value: env.FACILITY };
+			}
+		case 'admin':
+			switch (path[1]) {
+				case 'facility':
+					return { kind: 'success', value: env.FACILITY };
+				case 'provider':
+					return { kind: 'success', value: env.PROVIDER };
+				case 'service':
+					return { kind: 'success', value: env.SERVICE };
+			}
+	}
+
+	return { kind: 'failure', error: 'Could not map KV' };
+
+}
+
+
+async function handleCRUD(request: Request, env: Env): Promise<Response> {
 	const url = new URL(request.url);
 	const path = url.pathname.split('/').filter(Boolean);
 
@@ -46,18 +66,23 @@ async function handleRequest(request: Request, env: Env): Promise<Response> {
 	}
 
 	const namespace = namespaceAttempt.value;
-	const resourceId = path[1];
+	const resourceId = path[2];
 
 	switch (request.method) {
 		case 'GET':
-			const resource = await namespace.get(resourceId);
-			return new Response(resource, { status: resource ? 200 : 404 });
+			if (resourceId === undefined) {
+				const value = await namespace.list();
+				return new Response(JSON.stringify(value.keys), { status: 200 });
+			} else {
+				const resource = await namespace.get(resourceId);
+				return new Response(resource, { status: resource ? 200 : 404 });
+			}
 			break;
 		case 'POST':
 			const newItem: Item = await request.json();
 			const id = newItem.id || uuidv4();
-			let response = namespace.put(id, JSON.stringify(newItem));
-			return new Response(JSON.stringify({ id }), { status: 201 });
+			await namespace.put(id, JSON.stringify(newItem));
+			return new Response(JSON.stringify(id), { status: 201 });
 		case 'PUT':
 			const existingItem: Item = await request.json();
 			namespace.put(existingItem.id, JSON.stringify(existingItem));
@@ -66,6 +91,8 @@ async function handleRequest(request: Request, env: Env): Promise<Response> {
 			const deletionItem: Item = await request.json();
 			namespace.delete(deletionItem.id);
 			break;
+		case 'OPTIONS':
+			return new Response('', { status: 200 });
 		default:
 			return new Response('Method not allowed', { status: 405 });
 	}
