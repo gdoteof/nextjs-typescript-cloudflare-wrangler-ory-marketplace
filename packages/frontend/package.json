@@ -6,13 +6,16 @@
     "start": "serve out"
   },
   "dependencies": {
+    "@rjsf/core": "^5.12.1",
+    "@rjsf/validator-ajv8": "^5.12.1",
     "@types/node": "^18.11.5",
-    "@types/react-dom": "^18.0.7",
     "@types/react": "^18.0.23",
+    "@types/react-dom": "^18.0.7",
     "next": "latest",
-    "react-dom": "^18.2.0",
     "react": "^18.2.0",
+    "react-dom": "^18.2.0",
     "serve": "^14.2.0",
+    "swr": "^2.2.1",
     "typescript": "^4.8.4"
   }
 }
