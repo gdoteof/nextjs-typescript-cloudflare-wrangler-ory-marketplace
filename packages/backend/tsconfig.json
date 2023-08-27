@@ -5,8 +5,7 @@
 		"jsx": "react" /* Specify what JSX code is generated. */,
 		"module": "es2022" /* Specify what module code is generated. */,
 		"moduleResolution": "node" /* Specify how TypeScript looks up a file from a given module specifier. */,
-		"typeRoots": [],                                  /* Specify multiple folders that act like `./node_modules/@types`. */
-		"types": ["@cloudflare/workers-types"] /* Specify type package names to be included without being referenced in a source file. */,
+		"typeRoots": ["./node_modules/@types", "./node_modules/@cloudflare"],                                  /* Specify multiple folders that act like `./node_modules/@types`. */
 		"resolveJsonModule": true /* Enable importing .json files */,
 		"allowJs": true /* Allow JavaScript files to be a part of your program. Use the `checkJS` option to get errors from these files. */,
 		"checkJs": false /* Enable error reporting in type-checked JavaScript files. */,

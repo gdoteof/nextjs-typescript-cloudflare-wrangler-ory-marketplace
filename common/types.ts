@@ -37,15 +37,6 @@ interface Service {
     bookings: string[]; // Array of Booking IDs
 }
 
-// Types for Facilities
-export interface Facility {
-    id: string;
-    name: string;
-    location: GeocoderResult;
-    amenities: string;
-    associatedServiceProviders: string[]; // Array of Service Provider IDs
-}
-
 // Types for Users
 interface User {
     id: string;
