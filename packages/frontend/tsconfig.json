@@ -18,7 +18,10 @@
       {
         "name": "next"
       }
-    ]
+    ],
+    "paths": {
+      "@common/*": ["../../../../../common/*"],
+    }
   },
   "include": [
     "next-env.d.ts",
