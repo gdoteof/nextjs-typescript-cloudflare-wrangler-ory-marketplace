@@ -15,6 +15,7 @@
     "@ory/integrations": "^1.1.4",
     "@rjsf/core": "^5.12.1",
     "@rjsf/validator-ajv8": "^5.12.1",
+    "@types/google.maps": "^3.54.0",
     "@types/node": "^18.17.11",
     "@types/react-dom": "^18.0.7",
     "chakra-multiselect": "^0.4.6",
