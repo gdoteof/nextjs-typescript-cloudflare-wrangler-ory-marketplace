@@ -1,14 +1,6 @@
-/**
- * Welcome to Cloudflare Workers! This is your first worker.
- *
- * - Run `npm run dev` in your terminal to start a development server
- * - Open a browser tab at http://localhost:8787/ to see your worker in action
- * - Run `npm run deploy` to publish your worker
- *
- * Learn more at https://developers.cloudflare.com/workers/
- */
 import { v4 as uuidv4 } from 'uuid';
 import { Item, Result } from './types';
+import { Facility } from '../../../common/types/facility';
 export interface Env {
 	FACILITY: KVNamespace;
 	PROVIDER: KVNamespace;
@@ -56,6 +48,7 @@ function  path2KV(path: string[], env: Env): Result<KVNamespace, string> {
 
 
 async function handleCRUD(request: Request, env: Env): Promise<Response> {
+	console.log("Handling CRUD", request);
 	const url = new URL(request.url);
 	const path = url.pathname.split('/').filter(Boolean);
 
@@ -68,21 +61,26 @@ async function handleCRUD(request: Request, env: Env): Promise<Response> {
 	const namespace = namespaceAttempt.value;
 	const resourceId = path[2];
 
+	console.log("entering above switch");
 	switch (request.method) {
 		case 'GET':
 			if (resourceId === undefined) {
 				const value = await namespace.list();
-				return new Response(JSON.stringify(value.keys), { status: 200 });
+				return new Response(JSON.stringify(value), { status: 200 });
 			} else {
 				const resource = await namespace.get(resourceId);
 				return new Response(resource, { status: resource ? 200 : 404 });
 			}
 			break;
 		case 'POST':
-			const newItem: Item = await request.json();
-			const id = newItem.id || uuidv4();
-			await namespace.put(id, JSON.stringify(newItem));
-			return new Response(JSON.stringify(id), { status: 201 });
+			let body : Facility = await request.json();
+			const id = body.id || uuidv4();
+			await namespace.put(id, JSON.stringify(body), {
+				metadata: {name: body.name, location: body.location.formatted_address, amenities: body.amenities}
+			});
+			console.log("Created", id, body);
+			body.id = id;
+			return new Response(JSON.stringify(body), { status: 201 });
 		case 'PUT':
 			const existingItem: Item = await request.json();
 			namespace.put(existingItem.id, JSON.stringify(existingItem));

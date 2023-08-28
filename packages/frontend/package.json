@@ -6,20 +6,32 @@
     "start": "serve out"
   },
   "dependencies": {
+    "@chakra-ui/icons": "^2.1.0",
     "@chakra-ui/next-js": "^2.1.5",
+    "@chakra-ui/react": "^2.8.0",
+    "@emotion/react": "^11.11.1",
+    "@emotion/styled": "^11.11.0",
     "@ory/client": "^1.1.49",
     "@ory/integrations": "^1.1.4",
     "@rjsf/core": "^5.12.1",
     "@rjsf/validator-ajv8": "^5.12.1",
     "@types/node": "^18.17.11",
-    "@types/react": "^18.0.23",
     "@types/react-dom": "^18.0.7",
+    "chakra-multiselect": "^0.4.6",
+    "chakra-react-select": "^4.7.0",
+    "framer-motion": "^10.16.1",
     "next": "^13.4.19",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-google-autocomplete": "^2.7.3",
+    "react-icons": "^4.10.1",
+    "react-select": "^5.7.4",
     "serve": "^14.2.1",
-    "swr": "^2.2.1",
-    "typescript": "^4.9.5"
+    "swr": "^2.2.1"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.21",
+    "ts-loader": "^9.4.4",
+    "typescript": "^5.2.2"
   }
 }
