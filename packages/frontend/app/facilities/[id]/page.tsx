@@ -1,7 +1,7 @@
 'use client'
 import { useEffect, useState } from 'react';
 import FacilityDetail from '../components/FacilityDetail';
-import { Facility } from '../../../../../common/types/facility';
+import { Facility } from '../facility';
 
 const baseUrl = process.env.NEXT_PUBLIC_THRIV_API;
 export default function FacilityDetailPage(   {params}  : {params: {id: string}   }  ) {

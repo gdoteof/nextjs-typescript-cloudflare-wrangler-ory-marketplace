@@ -1,7 +1,7 @@
 'use client'
 
-import { Facility } from "../../../../../common/types/facility";
-import { AddFacilityForm } from "../../_components/AddFacilityForm";
+import { Facility } from '../facility'
+import { AddFacilityForm } from "../AddFacilityForm";
 
 const baseUrl = process.env.NEXT_PUBLIC_THRIV_API;
 

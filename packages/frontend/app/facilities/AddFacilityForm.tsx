@@ -1,8 +1,8 @@
 import React, { SetStateAction, useEffect, useState } from 'react';
 import { Box, Button, FormControl, FormLabel, Input, useToast } from '@chakra-ui/react';
 import dynamic from 'next/dynamic';
-import { Amenities } from '../../../../common/types/amenity';
-import { Facility } from '../../../../common/types/facility';
+import { Amenities } from './amenity';
+import { Facility } from './facility';
 import Select, { SingleValue } from 'react-select'
 import { ActionMeta, MultiValue } from 'react-select';
 
