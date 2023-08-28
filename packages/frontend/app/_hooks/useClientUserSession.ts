@@ -14,7 +14,7 @@ const ory = new FrontendApi(
 );
 
 export const useClientUserSession = () => {
-    const [isClient, setIsClient] = useState(false); // New state to determine client-side
+    const [isClient, setIsClient] = useState(false);
     const [session, setSession] = useState<Session | undefined>();
     const [logoutUrl, setLogoutUrl] = useState<string>("");
     const [settingsUrl, setSettingsUrl] = useState<string>("");
@@ -28,6 +28,7 @@ export const useClientUserSession = () => {
 
     useEffect(() => {
         if (isClient) { // Only run if isClient is true
+            console.log("inside isClient");
             ory
                 .toSession()
                 .then(({ data }) => {

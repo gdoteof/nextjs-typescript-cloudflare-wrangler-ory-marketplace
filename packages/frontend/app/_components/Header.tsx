@@ -5,7 +5,7 @@ import { ChevronDownIcon } from '@chakra-ui/icons';
 import { Session } from '@ory/client';
 
 type HeaderProps = {
-    session: Session;
+    session: Session | undefined;
     userName: string | undefined;
     settingsUrl: string;
     logoutUrl: string;
@@ -21,6 +21,9 @@ const Header: React.FC<HeaderProps> = ({ session, userName, settingsUrl, logoutU
                 </Box>
                 <Box mx={4}>
                     <Link href="/about">About</Link>
+                </Box>
+                <Box mx={4}>
+                    <Link href="/facilities/add">Add Facility</Link>
                 </Box>
                 <Flex flexGrow={1} />
                 <Box>
