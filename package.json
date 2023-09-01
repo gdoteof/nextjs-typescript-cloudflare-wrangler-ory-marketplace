@@ -10,7 +10,8 @@
     "packages/*"
   ],
   "scripts": {
-    "proxy": "ory proxy --no-jwt --port 4000 http://localhost:3000/"
+    "proxy": "ory proxy --no-jwt --port 4000 http://localhost:3000/ --allowed-cors-origins http://localhost:3000",
+    "tunnel": "ory tunnel --port 4000 http://localhost:3000/ --allowed-cors-origins http://localhost:3000 --allowed-cors-origins http://localhost:8787"
   },
   "dependencies": {
     "@chakra-ui/next-js": "^2.1.5",

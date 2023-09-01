@@ -11,8 +11,6 @@ export default function FacilityDetailPage(   {params}  : {params: {id: string} 
 
     useEffect(() => {
         if (id) {
-            // Fetch facility details based on the ID.
-            // This is a placeholder and would need to be replaced with your actual data fetching logic.
             fetch(`${baseUrl}/api/facilities/${id}`)
                 .then(response => response.json())
                 .then(data => {

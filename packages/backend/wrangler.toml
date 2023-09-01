@@ -2,26 +2,47 @@ name = "backend"
 main = "src/worker.ts"
 compatibility_date = "2023-08-21"
 
-kv_namespaces = [
-	{ binding = "FACILITY", id = "38f3f4df2c6d4989bf8e7f8d424f62af", preview_id = "cebf02333df24bfea2201073e06bfa81" },
-	{ binding = "PROVIDER", id = "69e803b655ee432d9de2b31c3da2725f", preview_id = "5bd85d4a6ac84a6f96c259f1ff33a8aa" },
-	{ binding = "BOOKING", id = "b45dfb387034463dbb8a8c3225a53f53", preview_id = "bf9f839e8867408c901f4827a86c02ec" },
-	{ binding = "PROFILE", id = "96edf9f4cd5c4fb49c4566c0cdd229d7", preview_id = "333e775d93134860be6fc86afc365dbd" },
-	{ binding = "SERVICE", id = "ccd59bbd15084b3c9e786bbcfa7c6784", preview_id = "2da905a16d4a45d4987da28e1e305acc" },
-	{ binding = "USER", id = "e3f2cb912b434812bf0b721284461d50" , preview_id = "9b52411bfda94282a2631ddc91b8850e" },
-]
+[vars]
+ORY_SDK_URL = "http://localhost:4000"
+
+[[kv_namespaces]]
+binding = "FACILITY"
+id = "38f3f4df2c6d4989bf8e7f8d424f62af"
+preview_id = "cebf02333df24bfea2201073e06bfa81"
+[[kv_namespaces]]
+binding = "PROVIDER"
+id = "69e803b655ee432d9de2b31c3da2725f"
+preview_id = "5bd85d4a6ac84a6f96c259f1ff33a8aa"
+
+[[kv_namespaces]]
+binding = "BOOKING"
+id = "b45dfb387034463dbb8a8c3225a53f53"
+preview_id = "bf9f839e8867408c901f4827a86c02ec"
+[[kv_namespaces]]
+binding = "PROFILE"
+id = "96edf9f4cd5c4fb49c4566c0cdd229d7"
+preview_id = "333e775d93134860be6fc86afc365dbd"
+[[kv_namespaces]]
+binding = "SERVICE"
+id = "ccd59bbd15084b3c9e786bbcfa7c6784"
+preview_id = "2da905a16d4a45d4987da28e1e305acc"
+[[kv_namespaces]]
+binding = "USER"
+id = "e3f2cb912b434812bf0b721284461d50"
+preview_id = "9b52411bfda94282a2631ddc91b8850e"
+
 
 [[d1_databases]]
-binding = "USER_PROFILE" # i.e. available in your Worker on env.USER_PROFILE
+binding = "USER_PROFILE"                             # i.e. available in your Worker on env.USER_PROFILE
 database_name = "user2profile"
 database_id = "075fb84b-c7fd-4f1c-be7e-7e44902bada8"
 
 [[d1_databases]]
-binding = "USER_BOOKING" 
+binding = "USER_BOOKING"
 database_name = "user2booking"
 database_id = "d633bb2a-aeaa-4bf0-9427-ff6a8f0f49dc"
 
 [[d1_databases]]
-binding = "FACILITY_PROVIDER" 
+binding = "FACILITY_PROVIDER"
 database_name = "facility2provider"
 database_id = "a80f2ee7-04da-472c-b107-783f067bc8c6"
