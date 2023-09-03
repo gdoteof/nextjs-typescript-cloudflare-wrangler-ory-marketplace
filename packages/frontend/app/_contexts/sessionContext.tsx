@@ -1,6 +1,7 @@
 'use client'
 import React, { createContext, useContext, ReactNode, useState, useEffect } from 'react';
 import { Configuration, FrontendApi, Session, Identity } from "@ory/client";
+import { debounce } from '../_utils/debounce';
 
 const basePath = process.env.NEXT_PUBLIC_ORY_SDK_URL;
 
@@ -21,7 +22,8 @@ type SessionContextType = {
 const SessionContext = createContext<SessionContextType | undefined>(undefined);
 
 export const SessionProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-    const [session, setSession] = useState<Session | undefined>();
+    const [session, _setSession] = useState<Session | undefined>();
+    const setSession = debounce(_setSession, 1000 * 60 * 5); // 5 minutes
 
     return (
         <SessionContext.Provider value={{session, setSession}}>

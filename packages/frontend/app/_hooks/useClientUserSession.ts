@@ -14,7 +14,9 @@ const ory = new FrontendApi(
 );
 
 export const useClientUserSession = () => {
+    console.log("loading useClientUserSession");
     const [isClient, setIsClient] = useState(false);
+
     const [session, setSession] = useState<Session | undefined>();
     const [logoutUrl, setLogoutUrl] = useState<string>("");
     const [settingsUrl, setSettingsUrl] = useState<string>("");

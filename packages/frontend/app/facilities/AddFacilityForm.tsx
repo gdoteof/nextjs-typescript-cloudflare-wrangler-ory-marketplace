@@ -8,23 +8,12 @@ import { ActionMeta, MultiValue } from 'react-select';
 
 import { useRouter } from 'next/navigation';
 import  {useClientUserSession} from "../_hooks/useClientUserSession";
-import { Configuration, FrontendApi } from '@ory/client';
 
 const GOOGLE_MAPS_API_KEY = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
-const ORY_SDK_URL = process.env.NEXT_PUBLIC_ORY_SDK_URL
 const AutoComplete = dynamic(() => import('react-google-autocomplete'), {
   ssr: false,
 });
 
-
-const ory = new FrontendApi(
-  new Configuration({
-      basePath: ORY_SDK_URL,
-      baseOptions: {
-          withCredentials: true,
-      },
-  })
-);
 
 interface FacilityFormProps {
   onSubmit?: (facility: Facility) => Promise<Facility>;
@@ -38,16 +27,6 @@ export const AddFacilityForm: React.FC<FacilityFormProps> = ({ onSubmit }) => {
   const { session } = useClientUserSession();
 
   const toast = useToast();
-
-  useEffect(() => {
-    ory.toSession().then((s) => {
-      console.log("session:", s);
-    })
-    .catch((e) => {
-      console.log("No session?", e);
-      return router.push(`${ORY_SDK_URL}/ui/login`);
-    });
-  });
 
   const handleSubmit = async () => {
     if (name && location) {

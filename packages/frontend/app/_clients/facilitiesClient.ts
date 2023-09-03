@@ -10,7 +10,7 @@ type Facility = {
 };
 
 class FacilitiesClient {
-    private static endpoint = '/facilities';
+    private static endpoint = '/api/facility';
 
     static async fetchAll(): Promise<Facility[]> {
         const response = await get(this.endpoint);

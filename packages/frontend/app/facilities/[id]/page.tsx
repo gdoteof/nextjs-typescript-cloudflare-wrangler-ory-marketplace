@@ -2,6 +2,7 @@
 import { useEffect, useState } from 'react';
 import FacilityDetail from '../components/FacilityDetail';
 import { Facility } from '../facility';
+import FacilitiesClient from '../../_clients/facilitiesClient';
 
 const baseUrl = process.env.NEXT_PUBLIC_THRIV_API;
 export default function FacilityDetailPage(   {params}  : {params: {id: string}   }  ) {
@@ -11,11 +12,10 @@ export default function FacilityDetailPage(   {params}  : {params: {id: string} 
 
     useEffect(() => {
         if (id) {
-            fetch(`${baseUrl}/api/facilities/${id}`)
-                .then(response => response.json())
-                .then(data => {
-                    console.log("facilities response:", data);
-                    setFacility(data);
+            FacilitiesClient.fetchById(id)
+                .then(facility => {
+                    console.log("facilities response:", facility);
+                    setFacility(facility);
                 })
                 .catch(error => {
                     console.error("Error fetching facility details:", error);
