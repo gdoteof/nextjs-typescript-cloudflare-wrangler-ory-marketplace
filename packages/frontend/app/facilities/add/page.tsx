@@ -13,6 +13,7 @@ const AddFacilitiesPage: React.FC = () => {
                 headers: {
                     'Content-Type': 'application/json',
                 },
+                credentials: 'include',
                 body: JSON.stringify(facility),
             });
             let data = await response.json();
