@@ -1,9 +1,9 @@
 name = "backend"
 main = "src/worker.ts"
 compatibility_date = "2023-08-21"
-
+# Base Configuration (used for dev and inherited by local)
 [vars]
-ORY_SDK_URL = "http://localhost:4000"
+ORY_SDK_URL = "https://auth.thriv.systems"
 
 [[kv_namespaces]]
 binding = "FACILITY"
@@ -13,7 +13,6 @@ preview_id = "cebf02333df24bfea2201073e06bfa81"
 binding = "PROVIDER"
 id = "69e803b655ee432d9de2b31c3da2725f"
 preview_id = "5bd85d4a6ac84a6f96c259f1ff33a8aa"
-
 [[kv_namespaces]]
 binding = "BOOKING"
 id = "b45dfb387034463dbb8a8c3225a53f53"
@@ -31,18 +30,43 @@ binding = "USER"
 id = "e3f2cb912b434812bf0b721284461d50"
 preview_id = "9b52411bfda94282a2631ddc91b8850e"
 
+[[d1_databases]]
+binding = "USER_PROFILE"
+database_name = "dev_user2profile"
+database_id = "1c148bdc-9c87-4250-ab38-9c5ae9f11854"
 
 [[d1_databases]]
-binding = "USER_PROFILE"                             # i.e. available in your Worker on env.USER_PROFILE
+binding = "USER_BOOKING" # i.e. available in your Worker on env.DB
+database_name = "dev_user2booking"
+database_id = "c4204e46-a4a4-4ca7-a35b-890a24212c1c"
+
+[[d1_databases]]
+binding = "FACILITY_PROVIDER" # i.e. available in your Worker on env.DB
+database_name = "dev_facility2provider"
+database_id = "ca03ba59-7505-4484-b894-28b5971ab903"
+
+
+# Local Environment Overrides
+[env.local]
+ORY_SDK_URL = "http://localhost:4000"
+
+
+[env.production]
+
+[[env.production.d1_databases]]
+binding = "USER_PROFILE"
 database_name = "user2profile"
 database_id = "075fb84b-c7fd-4f1c-be7e-7e44902bada8"
 
-[[d1_databases]]
+[[env.production.d1_databases]]
 binding = "USER_BOOKING"
 database_name = "user2booking"
 database_id = "d633bb2a-aeaa-4bf0-9427-ff6a8f0f49dc"
 
-[[d1_databases]]
+[[env.production.d1_databases]]
 binding = "FACILITY_PROVIDER"
 database_name = "facility2provider"
 database_id = "a80f2ee7-04da-472c-b107-783f067bc8c6"
+
+[env.production.vars]
+ORY_SDK_URL = "https://auth.thriv.systems"
