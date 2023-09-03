@@ -1,5 +1,3 @@
-// utils/restClient.ts
-
 const BASE_URL = process.env.NEXT_PUBLIC_THRIV_API;
 
 type RequestHeaders = {
