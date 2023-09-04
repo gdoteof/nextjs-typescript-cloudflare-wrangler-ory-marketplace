@@ -9,6 +9,7 @@ const defaultHeaders: RequestHeaders = {
 };
 
 const get = async (endpoint: string, headers: RequestHeaders = defaultHeaders) => {
+    console.log('get', endpoint, headers, BASE_URL);
     return fetch(`${BASE_URL}${endpoint}`, {
         method: "GET",
         headers,
