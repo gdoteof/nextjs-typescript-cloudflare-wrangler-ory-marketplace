@@ -4,8 +4,8 @@ import FacilityDetail from '../components/FacilityDetail';
 import { Facility } from '../facility';
 import FacilitiesClient from '../../_clients/facilitiesClient';
 
-const baseUrl = process.env.NEXT_PUBLIC_THRIV_API;
 export default function FacilityDetailPage(   {params}  : {params: {id: string}   }  ) {
+    console.log("attempting facility params:", params);
     const {id} = params;
 
     const [facility, setFacility] = useState<Facility|null>(null);
