@@ -1,4 +1,6 @@
 'use client'
+export const runtime = 'edge';
+
 import { useEffect, useState } from 'react';
 import FacilityDetail from '../components/FacilityDetail';
 import { Facility } from '../facility';
