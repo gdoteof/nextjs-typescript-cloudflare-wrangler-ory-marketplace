@@ -16,7 +16,6 @@ export default function FacilityDetailPage(   {params}  : {params: {id: string} 
         if (id) {
             FacilitiesClient.fetchById(id)
                 .then(facility => {
-                    console.log("facilities response:", facility);
                     setFacility(facility);
                 })
                 .catch(error => {

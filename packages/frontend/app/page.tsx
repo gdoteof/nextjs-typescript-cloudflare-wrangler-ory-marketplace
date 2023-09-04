@@ -1,6 +1,4 @@
 'use client'
-import Link from 'next/link';
-import { useClientUserSession} from './_hooks/useClientUserSession';
 import { Box, Flex, Heading, Text, Button, Image, Icon, Slide } from '@chakra-ui/react';
 import { FaPlay } from 'react-icons/fa';
 import { ChevronDownIcon } from '@chakra-ui/icons';
@@ -9,7 +7,6 @@ import { useState, useEffect } from 'react';
 
 
 const Home = () => {
-  const { session, loginUrl, logoutUrl, settingsUrl, userName } = useClientUserSession();
   const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {

@@ -7,7 +7,6 @@ import Select, { SingleValue } from 'react-select'
 import { ActionMeta, MultiValue } from 'react-select';
 
 import { useRouter } from 'next/navigation';
-import  {useClientUserSession} from "../_hooks/useClientUserSession";
 
 const GOOGLE_MAPS_API_KEY = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
 const AutoComplete = dynamic(() => import('react-google-autocomplete'), {
@@ -24,7 +23,6 @@ export const AddFacilityForm: React.FC<FacilityFormProps> = ({ onSubmit }) => {
   const [location, setLocation] = useState<google.maps.places.PlaceResult | null>(null);
   const [amenities, setAmenities] = useState<string[]>([]);
   const router = useRouter();
-  const { session } = useClientUserSession();
 
   const toast = useToast();
 

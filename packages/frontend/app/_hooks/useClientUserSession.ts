@@ -14,7 +14,6 @@ const ory = new FrontendApi(
 );
 
 export const useClientUserSession = () => {
-    console.log("loading useClientUserSession");
     const [isClient, setIsClient] = useState(false);
 
     const [session, setSession] = useState<Session | undefined>();
@@ -29,12 +28,10 @@ export const useClientUserSession = () => {
     }, []);
 
     useEffect(() => {
-        if (isClient) { // Only run if isClient is true
-            console.log("inside isClient");
+        if (isClient) { 
             ory
                 .toSession()
                 .then(({ data }) => {
-                    console.log(data);
                     setSession(data);
                     setUsername(data.identity.traits.username);
                     ory.createBrowserSettingsFlow().then(({ data }) => {
