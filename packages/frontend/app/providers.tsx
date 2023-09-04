@@ -10,6 +10,7 @@ export function Providers({
 }: {
     children: React.ReactNode
 }) {
+    console.log("top of providers");
     return (
         <CacheProvider>
             <ChakraProvider>
