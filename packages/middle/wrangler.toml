@@ -13,6 +13,9 @@ port = 8787
 ORY_SDK_URL = "https://auth.thriv.systems"
 ORY_API_KEY=""
 ORY_PRIVATE_API="https://auth.thriv.systems"
+THRIVAPI_USER_BASE_URL="https://api.thriv.systems/"
+THRIVAPI_ADMIN_BASE_URL="https://admin.thriv.systems/"
+
 # Variable bindings. These are arbitrary, plaintext strings (similar to environment variables)
 # Note: Use secrets to store sensitive data.
 # Docs: https://developers.cloudflare.com/workers/platform/environment-variables

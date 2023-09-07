@@ -1,3 +1,4 @@
+import { Router } from 'itty-router';
 /**
  * Welcome to Cloudflare Workers! This is your first worker.
  *
@@ -8,7 +9,6 @@
  * Learn more at https://developers.cloudflare.com/workers/
  */
 
-import handleRedirect from './redirect';
 import apiRouter from './router';
 
 // Export a default object containing event handlers
@@ -18,25 +18,44 @@ export default {
 	async fetch(request: Request, env: Env, ctx: ExecutionContext): Promise<Response> {
 		// You'll find it helpful to parse the request.url string into a URL object. Learn more at https://developer.mozilla.org/en-US/docs/Web/API/URL
 		const url = new URL(request.url);
+		const slug = url.pathname.split('/')[1];
+		const path = url.pathname.split('/').slice(2).join('/');
+		switch (slug) {
+			case 'api':
+				let router = Router();
+				router.all('/api/*', async request => {
+					let innerResponse = await fetch(env.THRIVAPI_USER_BASE_URL + path, request);
+					let res = new Response(innerResponse.body, innerResponse);
+					return res;
+				});
 
-		// You can get pretty far with simple logic like if/switch-statements
-		switch (url.pathname) {
-			case '/redirect':
-				return handleRedirect.fetch(request, env, ctx);
-		}
+				router.all('/admin/*', async request => {
+					let innerResponse = await fetch(env.THRIVAPI_ADMIN_BASE_URL + path, request);
+					let res = new Response(innerResponse.body, innerResponse);
+					return res;
+				});
 
-		if (url.pathname.startsWith('/api/')) {
-			// You can also use more robust routing
-			return apiRouter.handle(request);
-		}
+				router.all('*', async request => {
+					return new Response('Bad Request', { status: 400 });
+				});
 
-		return new Response(
-			`Try making requests to:
-      <ul>
-      <li><code><a href="/redirect?redirectUrl=https://example.com/">/redirect?redirectUrl=https://example.com/</a></code>,</li>
-      <li><code><a href="/proxy?modify&proxyUrl=https://example.com/">/proxy?modify&proxyUrl=https://example.com/</a></code>, or</li>
-      <li><code><a href="/api/todos">/api/todos</a></code></li>`,
-			{ headers: { 'Content-Type': 'text/html' } }
-		);
-	},
-};
+
+				router.get('/', async () => {
+					`Try making requests to:
+						<ul>
+						<li><code><a href="/redirect?redirectUrl=https://example.com/">/redirect?redirectUrl=https://example.com/</a></code>,</li>
+						<li><code><a href="/proxy?modify&proxyUrl=https://example.com/">/proxy?modify&proxyUrl=https://example.com/</a></code>, or</li>
+						<li><code><a href="/api/todos">/api/todos</a></code></li>`
+				}
+				);
+
+				router.all('*', () => {
+					return new Response('Bad Request', { status: 400 });
+				});
+
+				return router.handle(request);
+			default:
+				return new Response('Bad Request', { status: 400 });
+		};
+	}
+}
