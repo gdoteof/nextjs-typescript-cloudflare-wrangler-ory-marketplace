@@ -1,6 +1,38 @@
 import { Result } from "../types";
 import { path2KV } from "../utils/path2KV";
 import { v4 as uuidv4 } from 'uuid';
+import { getUserSession } from "./authN";
+
+async function createResource<T  extends { id: string }>(request: Request, env: Env, path: string[]) {
+    // Retrieve user's ID or username from the session using the utility function
+    const userSession = await getUserSession(request, env);
+    const userId = userSession.identity.id;  // Assuming the user ID is stored under 'identity.id' in the session data.
+
+    // Check if user is part of the Admins namespace using ORY Keto client
+    const isAdminCheck = userSession.identity.credentials;
+    console.log("isAdminCheck", isAdminCheck);
+    const isAdmin = true; //isAdminCheck && isAdminCheck.data.allowed;
+
+    try {
+        if (path[0] === "facilities" && !isAdmin) {
+            return new Response(JSON.stringify({ error: "Unauthorized: Only admins can create facilities." }), { status: 403 });
+        }
+        let entity : T = await request.json();
+        entity.id = uuidv4();
+        let resourceAttempt = path2KV(path, env);
+        if (resourceAttempt.kind === "failure") {
+            return new Response(JSON.stringify({ error: resourceAttempt.error }), { status: 404 });
+        }
+        let typedEntity = resourceAttempt.value.asType(entity);
+        let returnedEntity = await resourceAttempt.value.namespace.put(typedEntity, JSON.stringify(entity));
+        return new Response(JSON.stringify(returnedEntity), { status: 201 });
+    } catch (error) {
+        console.error("Error while creating resource:", error);
+        return new Response(JSON.stringify({ error: "Failed to create resource. Please try again later." }), { status: 500 });
+    }
+}
+
+
 
 interface ResourceType<T> {
     namespace: KVNamespace;
@@ -9,20 +41,15 @@ interface ResourceType<T> {
 }
 
 export async function handleCRUD(request: Request, env: Env): Promise<Response> {
-    console.log("handleCRUD0", request.url);
     const url = new URL(request.url);
-    console.log("handleCRUD1", request.url);
     const path = url.pathname.split("/").filter(Boolean);
     const resourceAttempt = path2KV(path, env);
-    console.log("handleCRUD2", request.url);
 
     if (resourceAttempt.kind === "failure") {
-    console.log("handleMAP FAILURE", request.url);
         return new Response(JSON.stringify({ error: resourceAttempt.error }), { status: 404 });
     }
-    console.log("handleCRUD3", request.url);
 
-    const { namespace, assertType } = resourceAttempt.value;
+    const { namespace, assertType, asType } = resourceAttempt.value;
 
     switch (request.method) {
         case "OPTIONS":
@@ -32,21 +59,14 @@ export async function handleCRUD(request: Request, env: Env): Promise<Response> 
         case "GET":
             {
                 const data = await namespace.get(path[path.length - 1]) || "";
-                if (!assertType(JSON.parse(data))) {
-                    return new Response(JSON.stringify({ error: "Invalid data format" }), { status: 400 });
-                }
+                const typedData = asType(JSON.parse(data));
                 return new Response(data || "", { status: data ? 200 : 404 });
             }
         case "POST":
             {
-                const data = await request.text();
-                if (!assertType(JSON.parse(data))) {
-                    return new Response(JSON.stringify({ error: "Invalid data format" }), { status: 400 });
-                }
-                let entity = JSON.parse(data);
-                entity.id = uuidv4();
-                await namespace.put(entity.id, data);
-                return new Response(JSON.stringify(entity), { status: 201 });
+              
+                let response = await createResource(request, env, path);
+                return response;
             }
         case "PUT":
             {

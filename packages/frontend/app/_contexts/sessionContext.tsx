@@ -22,10 +22,8 @@ type SessionContextType = {
 const SessionContext = createContext<SessionContextType | undefined>(undefined);
 
 export const SessionProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-    console.log("top of SessionProvider");
     const [session, _setSession] = useState<Session | undefined>();
     const setSession = debounce(_setSession, 1000 * 60 * 5); // 5 minutes
-    console.log("about to return from SessionProvider");
 
     return (
         <SessionContext.Provider value={{session, setSession}}>

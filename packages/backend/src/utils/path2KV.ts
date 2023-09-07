@@ -5,6 +5,7 @@ import { Provider, isProvider } from "../../../../common/types/provider";
 interface ResourceType<T> {
     namespace: KVNamespace;
     assertType: (obj: T) => boolean;
+    asType: (obj: any) => T;
 }
 
 type ResourceMap = {
@@ -13,8 +14,8 @@ type ResourceMap = {
 
 export function path2KV(path: string[], env: Env): Result<ResourceType<any>, string> {
     const resources: ResourceMap = {
-        facility: { namespace: env.FACILITY, assertType: (obj: any) => isFacility(obj) },
-        provider: { namespace: env.PROVIDER, assertType: (obj: any) => isProvider(obj) }
+        facility: { namespace: env.FACILITY, assertType: (obj: any) => isFacility(obj), asType: (obj: any) => obj as Facility },
+        provider: { namespace: env.PROVIDER, assertType: (obj: any) => isProvider(obj) , asType: (obj: any) => obj as Provider}
     };
 
     switch (path[0]) {
