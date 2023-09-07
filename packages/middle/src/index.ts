@@ -35,10 +35,6 @@ export default {
 					return res;
 				});
 
-				router.all('*', async request => {
-					return new Response('Bad Request', { status: 400 });
-				});
-
 
 				router.get('/', async () => {
 					`Try making requests to:
