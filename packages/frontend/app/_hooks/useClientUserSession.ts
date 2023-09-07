@@ -33,6 +33,9 @@ export const useClientUserSession = () => {
                 .toSession()
                 .then(({ data }) => {
                     setSession(data);
+                    if (!data.identity) {
+                        return;
+                    }
                     setUsername(data.identity.traits.username);
                     ory.createBrowserSettingsFlow().then(({ data }) => {
                         setSettingsUrl(data.request_url);
