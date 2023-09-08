@@ -1,1 +1,1 @@
-This folder contains the built output assets for the worker "gateway" generated at 2023-09-07T20:07:24.969Z.
+This folder contains the built output assets for the worker "gateway" generated at 2023-09-08T00:21:06.196Z.

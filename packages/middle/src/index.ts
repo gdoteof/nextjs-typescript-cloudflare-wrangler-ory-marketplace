@@ -17,8 +17,7 @@ export default {
 			origins: ['*'],                     // defaults to allow all (most common).  Restrict if needed.
 			maxAge: 3600,
 			headers: {
-			  'Access-Control-Allow-Credentials': 'true',
-			  'Access-Control-Allow-Origin': '*',
+			  'my-custom-header': 'geoff was here',
 			},
 		  })
 		const router = Router();
@@ -40,16 +39,16 @@ export default {
 			})
 			.get('/', async () => {
 				console.log("004fetch");
-				return new Response(`Try making requests to:
+				return `Try making requests to:
 				<ul>
 				<li><code><a href="/redirect?redirectUrl=https://example.com/">/redirect?redirectUrl=https://example.com/</a></code>,</li>
 				<li><code><a href="/proxy?modify&proxyUrl=https://example.com/">/proxy?modify&proxyUrl=https://example.com/</a></code>, or</li>
-				<li><code><a href="/api/todos">/api/todos</a></code></li>`)
+				<li><code><a href="/api/todos">/api/todos</a></code></li>`
 			})
 			.all('*', () => {
 				missing('Try making requests to <code>/api/</code>')
-			}).handle(request)
-			.catch(err => error(500, err.stack))
-			.then(corsify);
+			})
+
+		return router.handle(request).then(corsify);
 	}
 }
