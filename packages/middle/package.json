@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "itty-cors": "^0.3.6",
+    "itty-router-extras": "^0.4.5"
+  }
+}
