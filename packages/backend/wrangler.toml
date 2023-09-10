@@ -1,12 +1,16 @@
 name = "backend"
 main = "src/worker.ts"
 compatibility_date = "2023-08-21"
+
+routes = [
+	{ pattern = "api.thriv.systems", custom_domain = true }
+]
+
 # Base Configuration (used for dev and inherited by local)
 [dev]
 port = 8788
 [vars]
 ORY_SDK_URL = "https://auth.thriv.systems"
-ORY_API_KEY=""
 ORY_PRIVATE_API="https://auth.thriv.systems"
 
 [[kv_namespaces]]

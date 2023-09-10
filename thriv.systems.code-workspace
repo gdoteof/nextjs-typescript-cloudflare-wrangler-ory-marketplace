@@ -1,14 +1,38 @@
 {
 	"folders": [
-		{
-			"path": "."
-		}
+	  {
+		"path": "."
+	  },
+	  {
+		"path": "packages/frontend"
+	  },
+	  {
+		"path": "packages/backend"
+	  },
+	  {
+		"path": "packages/middle"
+	  },
 	],
 	"settings": {
-		"typescript.tsdk": "node_modules/typescript/lib",
-		"cSpell.words": [
-			"itty",
-			"todos"
-		]
+	  "typescript.tsdk": "node_modules/typescript/lib",
+	  "[./packages/backend]": {
+		"typescript.tsconfig": "./packages/backend/tsconfig.json"
+	  },
+	  "[./packages/middle]": {
+		"typescript.tsconfig": "./packages/middle/tsconfig.json"
+	  },
+	  "[./packages/frontend]": {
+		"typescript.tsconfig": "./packages/frontend/tsconfig.json"
+	  },
+	  "typescript.tsserver.useSyntaxServer": "auto",
+	  "cSpell.words": [
+		"itty",
+		"todos"
+	],
+	"jest.disabledWorkspaceFolders": [
+		"frontend",
+		"backend"
+	]
 	}
-}
+  }
+  

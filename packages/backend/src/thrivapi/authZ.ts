@@ -18,7 +18,6 @@ export async function handleAuthZ(request: Request, env: Env, session: Session):
         });
         let relation_api = new RelationshipApi(config);
         let relations = await relation_api.getRelationships();
-        console.log('death or glory', relations);
 //        let is_admin = await permission_api.checkPermission({subjectId: session.identity.id, relation: "member", object: "Admins:global"});
         // nothing works
         return new Response('', { status: 200 });

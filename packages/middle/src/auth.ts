@@ -18,17 +18,19 @@ export async function authorize(request: Request, env: Env): Promise<boolean> {
     return authenticate(request, env);
 }
 
-async function getUserSession(request: Request, env: Env): Promise<Session> {
+export async function getUserSession(request: Request, env: Env): Promise<Session> {
     const ory = new FrontendApi(
         new Configuration({
             basePath: env.ORY_SDK_URL,
             baseOptions: {
-                adapter: fetchAdapter
+                adapter: fetchAdapter,
             },
         })
     );
+    console.log("env.ORY_SDK_URL", env.ORY_SDK_URL);
 
     const cookies = request.headers.get("Cookie") || undefined;
+    console.log("cookies", cookies);
     const resp = await ory.toSession({ cookie: cookies });
     if (!resp || resp.status === 401) {
         throw new Error('Unauthorized');
