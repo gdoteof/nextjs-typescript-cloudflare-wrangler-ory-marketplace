@@ -10,6 +10,7 @@
 			"../../node_modules/@cloudflare"
 		],
 		"esModuleInterop": true,
+		"strictPropertyInitialization": false
 	},
 	"exclude": ["node_modules", "../frontend/**", "../backend/**"]
 }

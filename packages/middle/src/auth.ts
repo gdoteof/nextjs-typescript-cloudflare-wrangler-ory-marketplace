@@ -1,21 +1,20 @@
-// middle/src/auth.ts
-
 import { FrontendApi, Configuration, Session } from "@ory/client";
 import fetchAdapter from "@haverstack/axios-fetch-adapter";
 
-export async function authenticate(request: Request, env: Env): Promise<boolean> {
+export async function authenticatedSession(request: Request, env: Env): Promise<Session | false> {
     try {
         const userSession = await getUserSession(request, env);
-        return !!userSession;
+        return new Promise((resolve) => resolve(userSession));
     } catch (error) {
-        return false;
+        console.error("Error during authentication:", error);
+        return new Promise((reject) => reject(false));
     }
 }
 
-export async function authorize(request: Request, env: Env): Promise<boolean> {
+export async function authorizedSession(request: Request, env: Env): Promise<Session | false> {
     // For now, we'll consider successful authentication as successful authorization.
     // This can be expanded later with more complex authorization logic.
-    return authenticate(request, env);
+    return authenticatedSession(request, env);
 }
 
 export async function getUserSession(request: Request, env: Env): Promise<Session> {
@@ -27,12 +26,14 @@ export async function getUserSession(request: Request, env: Env): Promise<Sessio
             },
         })
     );
+
     console.log("env.ORY_SDK_URL", env.ORY_SDK_URL);
 
     const cookies = request.headers.get("Cookie") || undefined;
     console.log("cookies", cookies);
     const resp = await ory.toSession({ cookie: cookies });
     if (!resp || resp.status === 401) {
+        console.error("Failed to retrieve user session. Status:", resp.status);
         throw new Error('Unauthorized');
     }
     return resp.data;

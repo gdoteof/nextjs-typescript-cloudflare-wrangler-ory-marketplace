@@ -1,0 +1,1 @@
+bookFacility: (ctx: Context): boolean => this.related.facilities.includes(ctx.subject),
