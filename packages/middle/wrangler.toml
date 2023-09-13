@@ -33,6 +33,11 @@ THRIVAPI_ADMIN_BASE_URL="https://admin.thriv.systems"
 # binding = "MY_KV_NAMESPACE"
 # id = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
 
+[[kv_namespaces]]
+binding = "LEGACY_PROFILES"
+id = "c81413129b164c0bb9274dd0b2b11635"
+
+
 # Bind an R2 Bucket. Use R2 to store arbitrarily large blobs of data, such as files.
 # Docs: https://developers.cloudflare.com/r2/api/workers/workers-api-usage/
 # [[r2_buckets]]

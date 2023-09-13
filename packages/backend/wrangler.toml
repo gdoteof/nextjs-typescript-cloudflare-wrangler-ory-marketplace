@@ -17,6 +17,13 @@ ORY_PRIVATE_API="https://auth.thriv.systems"
 binding = "FACILITY"
 id = "38f3f4df2c6d4989bf8e7f8d424f62af"
 preview_id = "cebf02333df24bfea2201073e06bfa81"
+
+[[kv_namespaces]]
+binding = "LEGACY_PROFILE"
+id = "9f21d4cf450643d5bbca9ab231508dc0"
+preview_id = "daecbaf7da27435fa1b5142e3c786d42"
+
+
 [[kv_namespaces]]
 binding = "PROVIDER"
 id = "69e803b655ee432d9de2b31c3da2725f"
