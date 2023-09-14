@@ -1,3 +1,5 @@
+import './profile.css';
+import './profile.css';
 import React from 'react';
 import Header from './header';
 import QuickInfo from './quickInfo';
@@ -11,12 +13,12 @@ const Profile: React.FC = () => {
     // Sample data for demonstration
     const data = {
         header: {
-            coverUrl: "path_to_cover_image.jpg",
-            avatarUrl: "path_to_avatar.jpg",
-            name: "John Doe",
+            avatarUrl: "https://golfmds.s3.amazonaws.com/user/1b2d6b1019c17cecf8a00e29fc75af6b/photo/ff6edb9dddc8844bccbd4a9e2bc6c79c_m.jpg",
+                        name: "John Doe",
             averageRating: 4.5,
             reviewCount: 123,
-            bookingAllowed: true
+            bookingAllowed: true,
+            location: "Hiensburg, VT"
         },
         quickInfo: {
             sponsorName: "XYZ Corporation",
@@ -25,21 +27,19 @@ const Profile: React.FC = () => {
         },
         bio: "Sample biography of the doctor...",
         achievements: [{ name: "Achievement A" }, { name: "Achievement B" }],
-        availability: { min: 0, max: 100, value: 50 },
-        ratings: [
+                ratings: [
             { user: "Alice", avatarUrl: "path_to_avatar.jpg", rating: 5, comment: "Great doctor!" },
             // ... other ratings
         ]
     };
 
     return (
-        <VStack spacing={6} p={6}>
-            <Header {...data.header} />
+        <VStack className="vStackStyle" spacing={6} p={6}>
+            <Header />
             <QuickInfo {...data.quickInfo} />
             <DetailedBio bio={data.bio} />
             <Achievements achievements={data.achievements} />
-            <Availability {...data.availability} />
-            <Ratings ratings={data.ratings} />
+                        <Ratings ratings={data.ratings} />
         </VStack>
     );
 }

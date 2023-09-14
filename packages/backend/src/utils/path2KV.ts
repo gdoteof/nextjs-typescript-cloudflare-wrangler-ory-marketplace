@@ -1,7 +1,7 @@
 import { Result } from "../types";
 import { Facility, isFacility } from "../../../../common/types/facility";
 import { Provider, isProvider } from "../../../../common/types/provider";
-import { type } from "os";
+import { LegacyProfile, isLegacyProfile } from "../../../../common/types/legacy_profile";
 
 interface ResourceType<T> {
     namespace: KVNamespace;
@@ -19,12 +19,11 @@ type ResourceMap = {
 };
 
 export function path2KV(path: string[], env: Env): Result<ResourceType<any>, string> {
-    console.log('facility env:', env.FACILITY);
-    let facility_obj = Object.keys(env.FACILITY);
-    console.log('facility_obj', facility_obj);
+    console.log('path', path);
     const resources: ResourceMap = {
         facility: { namespace: env.FACILITY, assertType: (obj: any) => isFacility(obj), asType: (obj: any) => obj as Facility },
-        provider: { namespace: env.PROVIDER, assertType: (obj: any) => isProvider(obj) , asType: (obj: any) => obj as Provider}
+        provider: { namespace: env.PROVIDER, assertType: (obj: any) => isProvider(obj) , asType: (obj: any) => obj as Provider},
+        profile: { namespace: env.LEGACY_PROFILE, assertType: (obj: any) => isLegacyProfile(obj) , asType: (obj: any) => obj as LegacyProfile}
     };
 
     switch (path[0]) {

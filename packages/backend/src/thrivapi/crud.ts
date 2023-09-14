@@ -1,8 +1,6 @@
-import { Result } from "../types";
 import { path2KV, ResourceRequest } from "../utils/path2KV";
 import { v4 as uuidv4 } from 'uuid';
-import { getUserSession } from "./authN";
-import { RelationshipApi, Configuration, RelationshipApiCreateRelationshipRequest, CreateRelationshipBody } from "@ory/client";
+import { RelationshipApi, Configuration, RelationshipApiCreateRelationshipRequest } from "@ory/client";
 import fetchAdapter from "@haverstack/axios-fetch-adapter";
 
 export async function updateRelationship(subject: string, relationship: string, relationshipId: string, env: Env) {
@@ -15,7 +13,6 @@ export async function updateRelationship(subject: string, relationship: string, 
 }
 
 async function createResource<T  extends { id: string }>(request: Request, env: Env, path: string[]) {
-    console.log("entering createResource");
     try {
         let resourceRequest : ResourceRequest<T> = await request.json();
         let subject = resourceRequest.subject;
@@ -26,12 +23,8 @@ async function createResource<T  extends { id: string }>(request: Request, env: 
         let typedEntity = resourceAttempt.value.asType(resourceRequest.data);
         let id = uuidv4();
         typedEntity.id = id;
-        console.log("id", id);
-        console.log("typedEntity", typedEntity);
         await resourceAttempt.value.namespace.put(id, JSON.stringify(typedEntity));
-        console.log("put successful");
-        let set_result = await setResourceRelationship("Facilities", id, subject, "owner", subject, env);
-        console.log("set_result", set_result);
+        await setResourceRelationship("Facilities", id, subject, "owner", subject, env);
         return new Response(JSON.stringify(typedEntity), { status: 201 });
     } catch (error) {
         return new Response(JSON.stringify({ error: "Failed to create resource. Please try again later." }), { status: 500 });
@@ -39,8 +32,6 @@ async function createResource<T  extends { id: string }>(request: Request, env: 
 }
 
 async function setResourceRelationship(namespace: string, objectId: string, subjectId: string, relationship: string, relationshipId: string, env: Env) {
-    console.log("entering setResourceRelationship", namespace, objectId, subjectId, relationship, relationshipId);
-    console.log("expecting: ", env.ORY_PRIVATE_API, env.ORY_API_KEY, env.ORY_SDK_URL);
     let config = new Configuration({
         basePath: env.ORY_PRIVATE_API,
         apiKey: env.ORY_API_KEY,
@@ -82,8 +73,6 @@ interface ResourceType<T> {
 }
 
 export async function handleCRUD(request: Request, env: Env): Promise<Response> {
-    let body = await request.clone().json();
-    console.log("<handling CRUD>",body, "</handling CRUD>");
     const url = new URL(request.url);
     const path = url.pathname.split("/").filter(Boolean);
     const resourceAttempt = path2KV(path, env);
@@ -101,16 +90,15 @@ export async function handleCRUD(request: Request, env: Env): Promise<Response> 
             }
         case "GET":
             {
-                const data = await namespace.get(path[path.length - 1]) || "";
-                const typedData = asType(JSON.parse(data));
-                return new Response(data || "", { status: data ? 200 : 404 });
-            }
-        case "POST":
-            {
-              
-                console.log("entering POST");
-                let response = await createResource(request, env, path);
-                return response;
+                // path[0] = api
+                // path[1] = namespace
+                // path[2] = id
+                if (path.length == 3){
+                    const data = await namespace.get(path[path.length - 1]) || "";
+                    return new Response(data || "", { status: data ? 200 : 404 });
+                } else {
+                    const list= await namespace.list({ limit: 10})
+                    return new Response(JSON.stringify(list.keys.map(asType)), { status: 200}); }
             }
         case "PUT":
             {
