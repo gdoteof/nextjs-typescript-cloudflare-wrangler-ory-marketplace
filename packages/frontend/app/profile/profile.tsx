@@ -1,3 +1,4 @@
+"use client"
 import './profile.css';
 import './profile.css';
 import React from 'react';
