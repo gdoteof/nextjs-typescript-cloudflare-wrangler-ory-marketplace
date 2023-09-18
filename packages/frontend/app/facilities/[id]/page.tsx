@@ -7,26 +7,30 @@ import { Facility } from "../facility";
 import FacilitiesClient from "../../_clients/facilitiesClient";
 import { useToast } from "@chakra-ui/react";
 
-export default function FacilityDetailPage({
-    params,
-}: {
-    params: { id: string };
-}) {
-    console.log("attempting facility params:", params);
-    const { id } = params;
-    const [isEditing, setIsEditing] = useState(false);
+type FacilityDetailPageProps = {
+    params: {
+        id: string;
+    };
+};
 
+export default function FacilityDetailPage({ params: { id } }: FacilityDetailPageProps) {
     const [facility, setFacility] = useState<Facility | null>(null);
-    //use toast to give error
     const toast = useToast();
 
-    const handleEditSubmit = async (event:any) => {
+    // Handle form submission for editing
+    const handleEditSubmit = async () => {
         if (!facility) {
+            toast({
+                title: "Error",
+                description: "Facility not found!",
+                status: "error",
+                isClosable: true,
+            });
             return;
         }
 
         try {
-            let updated = await FacilitiesClient.update(facility.id, facility);
+            await FacilitiesClient.update(facility.id, facility);
             toast({
                 title: "Facility Updated",
                 description: "The facility has been successfully updated!",
@@ -37,20 +41,26 @@ export default function FacilityDetailPage({
         } catch (e: unknown) {
             toast({
                 title: "Error",
-                description: JSON.stringify(e),
+                description: `Error updating facility: ${JSON.stringify(e)}`,
                 status: "error",
+                isClosable: true,
             });
         }
     };
 
+    // Fetch facility details using the provided ID
     useEffect(() => {
         if (id) {
             FacilitiesClient.fetchById(id)
-                .then((facility) => {
-                    setFacility(facility);
-                })
+                .then(setFacility)
                 .catch((error) => {
                     console.error("Error fetching facility details:", error);
+                    toast({
+                        title: "Error",
+                        description: `Error fetching facility details: ${JSON.stringify(error)}`,
+                        status: "error",
+                        isClosable: true,
+                    });
                 });
         }
     }, [id]);
@@ -60,16 +70,15 @@ export default function FacilityDetailPage({
     }
 
     return (
-            <FacilityDetail
-                venue={{
-                    name: facility.name,
-                    location: {
-                        formatted_address: facility?.location.formatted_address || "",
-                    },
-                    amenities: facility.amenities,
-                }}
-                onEdit={handleEditSubmit}
-            />
+        <FacilityDetail
+            venue={{
+                name: facility.name,
+                location: {
+                    formatted_address: facility?.location.formatted_address || "",
+                },
+                amenities: facility.amenities,
+            }}
+            onEdit={handleEditSubmit}
+        />
     );
-    
 }
