@@ -49,7 +49,7 @@ const Home = () => {
 
             <Slide in={isScrolled}  direction="right"   style={{ width: "100%", height: "100vh" }}>
                 <Box>
-                  <Text> This could be anything at all</Text>
+                  <Text> This could be anything at all, so make it something great Thomas</Text>
                 </Box>
             </Slide>
 </Flex>
